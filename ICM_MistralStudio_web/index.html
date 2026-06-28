@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICM Calculator - Independent Chip Model</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with title, description, and dark mode toggle -->
+        <header>
+            <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌓</button>
+            <h1>ICM Calculator</h1>
+            <p>Independent Chip Model - Calculate tournament equity based on chip stacks and payout structure</p>
+        </header>
+
+        <!-- Main content -->
+        <main>
+            <!-- Configuration Card -->
+            <div class="card">
+                <h2>Configuration</h2>
+                <div class="form-group">
+                    <label for="numPlayers">Number of Players (1-9)</label>
+                    <select id="numPlayers" title="Select the number of players in the tournament" aria-label="Number of players">
+                        <option value="2">2 players</option>
+                        <option value="3">3 players</option>
+                        <option value="4">4 players</option>
+                        <option value="5">5 players</option>
+                        <option value="6">6 players</option>
+                        <option value="7">7 players</option>
+                        <option value="8">8 players</option>
+                        <option value="9">9 players</option>
+                    </select>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-secondary" id="resetBtn" title="Reset all inputs" aria-label="Reset all inputs">
+                        Reset All
+                    </button>
+                    <button class="btn btn-primary" id="addPayoutsBtn" title="Add standard tournament payouts" aria-label="Add standard payouts">
+                        Add Standard Payouts
+                    </button>
+                </div>
+            </div>
+
+            <!-- Player Information Card -->
+            <div class="card">
+                <h2>
+                    Player Information
+                    <span id="playerCountBadge" class="info-badge" aria-live="polite">0 players</span>
+                </h2>
+                <div id="playerInputs" class="player-inputs" aria-live="polite">
+                    <!-- Player inputs will be dynamically added here via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Payout Structure Card -->
+            <div class="card">
+                <h2>
+                    Payout Structure
+                    <span id="payoutCountBadge" class="info-badge" aria-live="polite">0 places</span>
+                </h2>
+                <div id="payoutInputs" class="payout-inputs" aria-live="polite">
+                    <!-- Payout inputs will be dynamically added here via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Calculate Button and Loading Indicator -->
+            <div class="card">
+                <div class="btn-group" style="justify-content: center;">
+                    <button class="btn btn-primary" id="calculateBtn" title="Calculate ICM values for all players" aria-label="Calculate ICM">
+                        Calculate ICM
+                    </button>
+                </div>
+                <div class="loading" id="loading" aria-live="polite">
+                    <div class="spinner"></div>
+                    <p>Calculating ICM values...<br><small id="progressText">Generating permutations...</small></p>
+                </div>
+            </div>
+
+            <!-- Results Card (hidden by default) -->
+            <div class="card results" id="results" aria-live="polite">
+                <h2>ICM Results</h2>
+                <div id="resultsContent">
+                    <!-- Results will be dynamically inserted here via JavaScript -->
+                </div>
+            </div>
+
+            <!-- Explanation Card (hidden by default) -->
+            <div class="card explanation" id="explanation" style="display: none;" aria-live="polite">
+                <h3>How ICM is Calculated</h3>
+                <p>
+                    For <span id="explanationNumPlayers">N</span> players, there are
+                    <span id="explanationFactorial">N!</span> =
+                    <span id="explanationPermCount">X</span> possible finishing orders.
+                </p>
+                <p><strong>For EACH possible order:</strong></p>
+                <ol>
+                    <li>
+                        Calculate probability of that exact finishing order:<br>
+                        Probability = (stack<sub>P1</sub>/total) &times;
+                        (stack<sub>P2</sub>/(total-P1)) &times; ...
+                    </li>
+                    <li>
+                        For each player, add:
+                        <code>probability &times; their_payout_in_that_order</code>
+                        to their running ICM total
+                    </li>
+                </ol>
+                <p><strong>After ALL orders are processed:</strong></p>
+                <ul>
+                    <li>Each player's ICM = sum of all their contributions</li>
+                    <li>Total of all ICM values = Total payout pool</li>
+                </ul>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                ICM Calculator &copy; 2026 |
+                Uses the Independent Chip Model for tournament equity calculations.
+            </p>
+        </footer>
+    </div>
+<script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,65 @@
+
+
+https://console.mistral.ai/
+https://chat.mistral.ai/
+
+INSTRUCTIONS AND DESCRIPTION:
+Code orientated use. Use variables with describing names instead of short or acronyms. Be polite. Be humorous and  inspiring, but not at the expense of flooding the chat. Ask before proceeding to next phase. Use all tools necessary to provide the best result. Use best coding practices. Use multiple files and file structure that is considered a good practice. If seen appropriate, delegate. Admit mistakes instead of hallucinating. If you can't provide a good answer point out where I could find it.
+
+-------------------------------------------------------------------
+HOW TO CALL:
+cURL:
+curl --location 'https://api.mistral.ai/v1/conversations' \
+--header "Content-Type: application/json" \
+--header "X-API-KEY: $MISTRAL_API_KEY" \
+--data '{
+    "agent_id": "ag_019a48a53a3f72359ae98b1de158b4e3",
+    "inputs": "Hello there!"
+}'
+
+
+Python:
+import os
+from mistralai import Mistral
+
+# Initialize the client
+api_key = os.environ.get("MISTRAL_API_KEY")
+client = Mistral(api_key)
+inputs = [
+  {
+    "role": "user",
+    "content": "Hello there!",
+  }
+]
+try:
+    # Make the API call
+    response = client.beta.conversations.start_stream(
+        inputs=inputs,
+        agent_id="ag_019a48a53a3f72359ae98b1de158b4e3",
+    )
+    # Process the stream
+    for chunk in response:
+        print(chunk)
+except Exception as e:
+    print(f"Error: {str(e)}")
+
+
+TypeScript:
+import { MistralPrivate } from "@mistralai/mistralai-private";
+const client = new MistralPrivate({
+  serverURL: "https://api.mistral.ai/",
+  apiKey: process.env.MISTRAL_API_KEY || "",
+});
+const response = await client.beta.conversations.startStream({
+  agentId: "ag_019a48a53a3f72359ae98b1de158b4e3",
+  inputs: "Hello there!",
+});
+for await (const chunk of response) {
+  console.log(chunk);
+}
+
+-------------------------------------------------------------------
+TOKEN / AGENT ID:
+ag_019a48a53a3f72359ae98b1de158b4e3
+
+
